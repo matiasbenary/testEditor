@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/easymde/dist/easymde.min.css"
+    />
+    <script src="https://unpkg.com/easymde/dist/easymde.min.js"></script>
+  </head>
+  <body>
+    <label>Nombre</label>
+    <input type="text" id="name" />
+    <label>email</label>
+    <input type="text" id="email" />
+    <label>dni</label>
+    <input type="text" id="dni" />
+    <div id="result"></div>
+    <textarea id="my-text-area"></textarea>
+    <button id="click">Click me</button>
+    <script>
+      const name = document.getElementById('name');
+      const email = document.getElementById('email');
+      const dni = document.getElementById('dni');
+      const result = document.getElementById('result');
+      const easyMDE = new EasyMDE({
+        element: document.getElementById('my-text-area'),
+        toolbar: [
+          {
+            name: 'bold',
+            action: EasyMDE.toggleBold,
+            className: 'fa fa-bold',
+            title: 'Bold',
+          },
+          {
+            name: 'italic',
+            action: EasyMDE.toggleItalic,
+            className: 'fa fa-italic',
+            title: 'Italic',
+          },
+          {
+            name: 'heading-smaller',
+            action: EasyMDE.toggleHeadingSmaller,
+            className: 'fa fa-header',
+            title: 'Header -',
+          },
+          {
+            name: 'heading-bigger',
+            action: EasyMDE.toggleHeadingBigger,
+            className: 'fa fa-lg fa-header',
+            title: 'Header +',
+          },
+          {
+            name: 'preview',
+            action: EasyMDE.togglePreview,
+            className: 'fa fa-eye no-disable',
+            title: 'Code',
+          },
+
+          '|',
+          {
+            name: 'others',
+            className: 'fa fa-user-plus',
+            title: 'Variables de Usuarios',
+            children: [
+              {
+                name: 'others',
+                action: function customFunction(editor) {
+                  var cm = editor.codemirror;
+                  cm.replaceSelection('{nombre}');
+                },
+                className: 'fa fa-user',
+                title: 'Agregar nombre',
+              },
+              {
+                name: 'email',
+                action: function customFunction(editor) {
+                  var cm = editor.codemirror;
+                  cm.replaceSelection('{email}');
+                },
+                className: 'fa fa-user',
+                title: 'Agregar Email',
+              },
+              {
+                name: 'DNI',
+                action: function customFunction(editor) {
+                  var cm = editor.codemirror;
+                  cm.replaceSelection('{dni}');
+                },
+                className: 'fa fa-user',
+                title: 'Agregar DNI',
+              },
+            ],
+          },
+        ],
+      });
+      click.addEventListener('click', () => {
+        let aux = easyMDE.value();
+        let regex = /{nombre\}/i;
+        aux = aux.replace(regex, name.value);
+        regex = /{email\}/i;
+        aux = aux.replace(regex, email.value);
+        regex = /{dni\}/i;
+        aux = aux.replace(regex, dni.value);
+
+        result.innerHTML = aux;
+      });
+    </script>
+  </body>
+</html>
